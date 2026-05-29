@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DashboardContainer from '../components/dashboard/DashboardContainer';
+import { auth } from '../lib/auth';
+
+// Server-side session protection
+const session = await auth.api.getSession({
+  headers: Astro.request.headers
+});
+
+if (!session) {
+  return Astro.redirect('/login');
+}
+
+if (!session.user.emailVerified) {
+  return Astro.redirect('/login?error=email-not-verified');
+}
+---
+
+<Layout title="Dashboard Finansial — Uangku" description="Kelola keuangan pribadi Anda secara instan dengan desain Soft UI yang modern. Catat pendapatan, batasi anggaran bulanan, dan tabung target impian.">
+  <main class="py-4 min-h-screen bg-bg-custom">
+    <DashboardContainer client:load />
+  </main>
+</Layout>

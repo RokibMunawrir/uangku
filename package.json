@@ -12,6 +12,27 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.3.8"
+    "@astrojs/node": "^10.1.1",
+    "@astrojs/react": "^5.0.5",
+    "@better-auth/drizzle-adapter": "^1.6.11",
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "astro": "^6.3.8",
+    "better-auth": "^1.6.11",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "lucide-react": "^1.16.0",
+    "motion": "^12.40.0",
+    "mysql2": "^3.22.4",
+    "nodemailer": "^8.0.9",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^8.0.0",
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.22.3"
   }
 }

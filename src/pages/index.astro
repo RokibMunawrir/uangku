@@ -1,11 +1,522 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { auth } from '../lib/auth';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const session = await auth.api.getSession({
+  headers: Astro.request.headers
+});
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Uangku — Personal Finance App" description="Aplikasi pencatatan keuangan pribadi modern dengan desain Soft UI / Neumorphism premium dan keamanan tangguh Better Auth.">
+  
+  {/* Header / Sticky Navigation Bar */}
+  <header class="sticky top-0 z-50 w-full select-none transition-all duration-300 bg-bg-custom/80 backdrop-blur-md border-b border-white/10 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      {/* Logo */}
+      <a href="/" class="flex items-center gap-3 outline-none group">
+        <div class="w-11 h-11 rounded-[14px] bg-bg-custom shadow-neumorph-sm-out group-hover:shadow-neumorph-out active:shadow-neumorph-sm-in flex items-center justify-center text-xl font-bold transition-all duration-200">
+          💸
+        </div>
+        <div>
+          <h1 class="text-lg font-extrabold text-dark-custom tracking-tight leading-none">Uangku</h1>
+          <p class="text-[9px] font-bold text-primary-custom tracking-widest uppercase mt-0.5">Personal Finance</p>
+        </div>
+      </a>
+
+      {/* Center Nav Items */}
+      <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-secondary-custom">
+        <a href="#fitur" class="hover:text-primary-custom transition-colors duration-200">Fitur Utama</a>
+        <a href="#keamanan" class="hover:text-primary-custom transition-colors duration-200">Keamanan</a>
+        <a href="#faq" class="hover:text-primary-custom transition-colors duration-200">FAQ</a>
+      </nav>
+
+      {/* Right Action buttons */}
+      <div class="flex items-center gap-4">
+        {session ? (
+          <a
+            href="/dashboard"
+            class="px-5 py-2.5 rounded-[14px] bg-primary-custom text-white font-bold text-xs shadow-neumorph-primary-out hover:brightness-105 active:scale-[0.98] transition-all duration-200 flex items-center gap-1.5"
+          >
+            <span>Buka Dashboard</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+            </svg>
+          </a>
+        ) : (
+          <>
+            <a
+              href="/login"
+              class="hidden sm:inline-flex px-5 py-2.5 rounded-[14px] bg-bg-custom text-secondary-custom font-bold text-xs shadow-neumorph-sm-out hover:shadow-neumorph-out active:shadow-neumorph-sm-in hover:text-primary-custom transition-all duration-200"
+            >
+              Masuk
+            </a>
+            <a
+              href="/register"
+              class="px-5 py-2.5 rounded-[14px] bg-primary-custom text-white font-bold text-xs shadow-neumorph-primary-out hover:brightness-105 active:scale-[0.98] transition-all duration-200"
+            >
+              Mulai Gratis
+            </a>
+          </>
+        )}
+      </div>
+
+    </div>
+  </header>
+
+  {/* Hero Section */}
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 select-none">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      {/* Left side text column */}
+      <div class="lg:col-span-6 flex flex-col gap-6 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-bg-custom shadow-neumorph-sm-in text-[10px] font-bold text-primary-custom uppercase tracking-wider mx-auto lg:mx-0 w-fit">
+          ✨ Era Baru Pencatatan Keuangan
+        </div>
+        <h2 class="text-4xl sm:text-5xl font-extrabold text-dark-custom leading-[1.1] tracking-tight">
+          Kelola Keuangan Lebih <span class="text-primary-custom">Mudah</span> dan <span class="text-primary-custom">Modern</span>
+        </h2>
+        <p class="text-base sm:text-lg text-secondary-custom font-semibold leading-relaxed max-w-xl mx-auto lg:mx-0">
+          Catat pemasukan, pengeluaran, tabungan, dan ekspor laporan finansial Anda dalam satu ruang visual premium berdesain Soft UI dengan sistem keamanan tangguh Better Auth.
+        </p>
+
+        {/* Hero CTAs */}
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 mt-4">
+          {session ? (
+            <a
+              href="/dashboard"
+              class="px-8 py-4 rounded-[18px] bg-primary-custom text-white font-bold text-sm shadow-neumorph-primary-out hover:brightness-105 active:scale-[0.98] transition-all duration-200 flex items-center gap-2"
+            >
+              <span>Kembali Ke Dashboard</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          ) : (
+            <>
+              <a
+                href="/register"
+                class="px-8 py-4 rounded-[18px] bg-primary-custom text-white font-bold text-sm shadow-neumorph-primary-out hover:brightness-105 active:scale-[0.98] transition-all duration-200 flex items-center gap-2"
+              >
+                <span>Mulai Gratis Sekarang</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+              <a
+                href="/login"
+                class="px-8 py-4 rounded-[18px] bg-bg-custom text-secondary-custom font-bold text-sm shadow-neumorph-sm-out hover:shadow-neumorph-out active:shadow-neumorph-sm-in hover:text-primary-custom transition-all duration-200"
+              >
+                Masuk ke Akun
+              </a>
+            </>
+          )}
+        </div>
+
+        {/* Subtitle list */}
+        <div class="flex items-center justify-center lg:justify-start gap-6 mt-6 text-xs font-bold text-secondary-custom">
+          <div class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-success-custom" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Tanpa Biaya</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-success-custom" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Aman Terenkripsi</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-success-custom" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Ekspor PDF & Excel</span>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Right side Neumorphic Showcase Decor */}
+      <div class="lg:col-span-6 flex items-center justify-center relative w-full mt-10 lg:mt-0">
+        
+        {/* Soft Shadow Neumorphic Container Mockup */}
+        <div class="w-full max-w-lg p-6 rounded-[28px] bg-bg-custom shadow-neumorph-out border border-white/20 relative flex flex-col gap-6 transform hover:scale-[1.01] transition-all duration-300">
+          
+          {/* Mockup Header */}
+          <div class="flex items-center justify-between pb-4 border-b border-neutral-300/40">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-bg-custom shadow-neumorph-sm-out flex items-center justify-center text-base">👨‍💻</div>
+              <div class="flex flex-col">
+                <span class="text-xs font-bold text-dark-custom">Rokib</span>
+                <span class="text-[8px] font-bold text-primary-custom tracking-wider">PREMIUM MEMBER</span>
+              </div>
+            </div>
+            <div class="px-3 py-1 rounded-full bg-bg-custom shadow-neumorph-sm-in text-[9px] font-bold text-secondary-custom">
+              Mei 2026
+            </div>
+          </div>
+
+          {/* Balance Cards Mockup */}
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-4 rounded-[20px] bg-bg-custom shadow-neumorph-sm-out border border-white/30 flex flex-col gap-2">
+              <span class="text-[10px] font-bold text-secondary-custom">Total Saldo Aktif</span>
+              <span class="text-lg font-extrabold text-dark-custom">Rp 5.285.000</span>
+              <span class="text-[8px] font-bold text-success-custom flex items-center gap-0.5">
+                <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                </svg>
+                +14.2% bulan ini
+              </span>
+            </div>
+            <div class="p-4 rounded-[20px] bg-bg-custom shadow-neumorph-sm-in border border-white/20 flex flex-col gap-2">
+              <span class="text-[10px] font-bold text-secondary-custom">Batas Pengeluaran</span>
+              <span class="text-lg font-extrabold text-primary-custom">Rp 5.000.000</span>
+              <div class="w-full h-1.5 rounded-full bg-bg-custom shadow-inner overflow-hidden">
+                <div class="h-full bg-primary-custom rounded-full" style="width: 44.3%;"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Floating Small Decorative Neumorphic Card */}
+          <div class="absolute -bottom-8 -left-6 hidden sm:flex p-3 rounded-[16px] bg-bg-custom shadow-neumorph-sm-out border border-white/30 items-center gap-3 transform rotate-2 animate-bounce hover:rotate-0 transition-transform duration-300">
+            <div class="w-8 h-8 rounded-[10px] bg-bg-custom shadow-neumorph-sm-in flex items-center justify-center text-lg">🍔</div>
+            <div class="flex flex-col">
+              <span class="text-[10px] font-bold text-dark-custom">Makan Siang</span>
+              <span class="text-[9px] font-extrabold text-danger-custom">- Rp 120.000</span>
+            </div>
+          </div>
+
+          {/* Floating Savings Goal Card Mockup */}
+          <div class="absolute -top-10 -right-6 hidden sm:flex p-4 rounded-[20px] bg-bg-custom shadow-neumorph-sm-out border border-white/30 flex-col gap-2 w-48 transform -rotate-1 hover:rotate-0 transition-transform duration-300">
+            <div class="flex justify-between items-center text-[10px] font-bold">
+              <span class="text-secondary-custom">🎯 Laptop Impian</span>
+              <span class="text-primary-custom">43%</span>
+            </div>
+            <div class="w-full h-1.5 rounded-full bg-bg-custom shadow-inner overflow-hidden">
+              <div class="h-full bg-success-custom rounded-full" style="width: 43%;"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  {/* Features Showcase Section */}
+  <section id="fitur" class="py-24 bg-bg-custom select-none">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      {/* Title */}
+      <div class="text-center max-w-3xl mx-auto mb-16 flex flex-col gap-4">
+        <span class="text-xs font-bold text-primary-custom uppercase tracking-widest">FITUR UNGGULAN</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-dark-custom tracking-tight leading-tight">
+          Segala Hal yang Anda Butuhkan dalam Mengatur Dana
+        </h2>
+        <p class="text-base text-secondary-custom font-semibold max-w-2xl mx-auto">
+          Didesain secara presisi dengan visual neumorphism yang nyaman dipandang, memberikan pengalaman mencatat anggaran keuangan yang tak melelahkan mata.
+        </p>
+      </div>
+
+      {/* Grid */}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        {/* Fitur 1 */}
+        <div class="p-8 rounded-[24px] bg-bg-custom shadow-neumorph-out border border-white/20 hover:-translate-y-1 hover:shadow-neumorph-btn-hover transition-all duration-300 flex flex-col gap-4 group">
+          <div class="w-12 h-12 rounded-[14px] bg-bg-custom shadow-neumorph-sm-out group-hover:shadow-neumorph-out flex items-center justify-center text-2xl">
+            📊
+          </div>
+          <h3 class="text-lg font-bold text-dark-custom">Dashboard Realtime</h3>
+          <p class="text-xs font-semibold text-secondary-custom leading-normal">
+            Tinjau total saldo aktif bulanan, total pengeluaran, serta grafik perbandingan pemasukan-pengeluaran secara langsung dalam satu tampilan rapi.
+          </p>
+        </div>
+
+        {/* Fitur 2 */}
+        <div class="p-8 rounded-[24px] bg-bg-custom shadow-neumorph-out border border-white/20 hover:-translate-y-1 hover:shadow-neumorph-btn-hover transition-all duration-300 flex flex-col gap-4 group">
+          <div class="w-12 h-12 rounded-[14px] bg-bg-custom shadow-neumorph-sm-out group-hover:shadow-neumorph-out flex items-center justify-center text-2xl">
+            ✍️
+          </div>
+          <h3 class="text-lg font-bold text-dark-custom">Pencatatan Instan</h3>
+          <p class="text-xs font-semibold text-secondary-custom leading-normal">
+            Catat transaksi harian secara cepat dengan menentukan kategori (makanan, transportasi, belanja, hiburan) serta catatan penting secara detail.
+          </p>
+        </div>
+
+        {/* Fitur 3 */}
+        <div class="p-8 rounded-[24px] bg-bg-custom shadow-neumorph-out border border-white/20 hover:-translate-y-1 hover:shadow-neumorph-btn-hover transition-all duration-300 flex flex-col gap-4 group">
+          <div class="w-12 h-12 rounded-[14px] bg-bg-custom shadow-neumorph-sm-out group-hover:shadow-neumorph-out flex items-center justify-center text-2xl">
+            🎯
+          </div>
+          <h3 class="text-lg font-bold text-dark-custom">Target Tabungan</h3>
+          <p class="text-xs font-semibold text-secondary-custom leading-normal">
+            Buat rencana target tabungan jangka panjang dengan deadline yang dinamis. Alokasikan sisa saldo aktif Anda secara bertahap langsung ke target impian.
+          </p>
+        </div>
+
+        {/* Fitur 4 */}
+        <div class="p-8 rounded-[24px] bg-bg-custom shadow-neumorph-out border border-white/20 hover:-translate-y-1 hover:shadow-neumorph-btn-hover transition-all duration-300 flex flex-col gap-4 group">
+          <div class="w-12 h-12 rounded-[14px] bg-bg-custom shadow-neumorph-sm-out group-hover:shadow-neumorph-out flex items-center justify-center text-2xl">
+            📥
+          </div>
+          <h3 class="text-lg font-bold text-dark-custom">Ekspor Laporan Cepat</h3>
+          <p class="text-xs font-semibold text-secondary-custom leading-normal">
+            Unduh rekap laporan transaksi finansial lengkap Anda dalam format PDF terstruktur, lembar Excel (.xlsx), atau CSV dalam sekali klik.
+          </p>
+        </div>
+
+        {/* Fitur 5 */}
+        <div class="p-8 rounded-[24px] bg-bg-custom shadow-neumorph-out border border-white/20 hover:-translate-y-1 hover:shadow-neumorph-btn-hover transition-all duration-300 flex flex-col gap-4 group">
+          <div class="w-12 h-12 rounded-[14px] bg-bg-custom shadow-neumorph-sm-out group-hover:shadow-neumorph-out flex items-center justify-center text-2xl">
+            🔒
+          </div>
+          <h3 class="text-lg font-bold text-dark-custom">Better Auth Security</h3>
+          <p class="text-xs font-semibold text-secondary-custom leading-normal">
+            Keamanan berlapis dengan Better Auth. Data sensitif tersimpan aman dengan session management modern, secure cookies, dan hash password tangguh.
+          </p>
+        </div>
+
+        {/* Fitur 6 */}
+        <div class="p-8 rounded-[24px] bg-bg-custom shadow-neumorph-out border border-white/20 hover:-translate-y-1 hover:shadow-neumorph-btn-hover transition-all duration-300 flex flex-col gap-4 group">
+          <div class="w-12 h-12 rounded-[14px] bg-bg-custom shadow-neumorph-sm-out group-hover:shadow-neumorph-out flex items-center justify-center text-2xl">
+            📱
+          </div>
+          <h3 class="text-lg font-bold text-dark-custom">Visual Premium Responsif</h3>
+          <p class="text-xs font-semibold text-secondary-custom leading-normal">
+            Nikmati keindahan interaksi visual Neumorphic yang mulus baik di layar desktop laptop, tablet, maupun layar handphone Anda kapan pun.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  {/* Security Section (Showcase Better Auth) */}
+  <section id="keamanan" class="py-24 bg-bg-custom border-t border-b border-neutral-300/40 select-none">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        {/* Left Side: Better Auth Feature list */}
+        <div class="lg:col-span-7 flex flex-col gap-6">
+          <span class="text-xs font-bold text-primary-custom uppercase tracking-widest w-fit px-3 py-1 rounded-full bg-bg-custom shadow-neumorph-sm-in">
+            🛡️ KEAMANAN TINGKAT TINGGI
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-dark-custom tracking-tight leading-tight">
+            Keamanan Modern untuk Finansial Pribadi Anda
+          </h2>
+          <p class="text-base text-secondary-custom font-semibold leading-relaxed">
+            Uangku mengintegrasikan **Better Auth**, sebuah standar autentikasi terkemuka, untuk menjamin privasi akun dan data keuangan Anda tetap terjaga sepenuhnya.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
+            <div class="flex gap-3.5 items-start">
+              <div class="p-2 rounded-[12px] bg-bg-custom shadow-neumorph-sm-out text-success-custom">
+                ✔️
+              </div>
+              <div>
+                <h4 class="text-sm font-extrabold text-dark-custom">Password Hashing Tangguh</h4>
+                <p class="text-xs font-semibold text-secondary-custom mt-1 leading-normal">
+                  Password Anda dienkripsi kuat secara irreversible sebelum disimpan di database MySQL kami.
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3.5 items-start">
+              <div class="p-2 rounded-[12px] bg-bg-custom shadow-neumorph-sm-out text-success-custom">
+                ✔️
+              </div>
+              <div>
+                <h4 class="text-sm font-extrabold text-dark-custom">Sesi Aman & Terenkripsi</h4>
+                <p class="text-xs font-semibold text-secondary-custom mt-1 leading-normal">
+                  Sesi login dikelola aman dengan JWT (JSON Web Tokens) dan HTTP-Only Secure Cookies yang anti-hijack.
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3.5 items-start">
+              <div class="p-2 rounded-[12px] bg-bg-custom shadow-neumorph-sm-out text-success-custom">
+                ✔️
+              </div>
+              <div>
+                <h4 class="text-sm font-extrabold text-dark-custom">Multi-Device Control</h4>
+                <p class="text-xs font-semibold text-secondary-custom mt-1 leading-normal">
+                  Sistem melacak sesi aktif perangkat dan memungkinkan logout instan dari seluruh perangkat lain.
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3.5 items-start">
+              <div class="p-2 rounded-[12px] bg-bg-custom shadow-neumorph-sm-out text-success-custom">
+                ✔️
+              </div>
+              <div>
+                <h4 class="text-sm font-extrabold text-dark-custom">Integrasi Google OAuth</h4>
+                <p class="text-xs font-semibold text-secondary-custom mt-1 leading-normal">
+                  Masuk instan yang tepercaya tanpa perlu mengingat sandi tambahan menggunakan akun resmi Google.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side Card Mock */}
+        <div class="lg:col-span-5 flex items-center justify-center w-full">
+          <div class="w-full max-w-sm p-8 rounded-[28px] bg-bg-custom shadow-neumorph-out border border-white/30 flex flex-col gap-6 text-center select-none">
+            <div class="w-16 h-16 rounded-full bg-bg-custom shadow-neumorph-sm-in flex items-center justify-center text-3xl mx-auto text-primary-custom animate-pulse">
+              🛡️
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-dark-custom">Better Auth Active</h3>
+              <p class="text-[10px] font-bold text-success-custom uppercase tracking-wider mt-1">Status: SECURE & ENCRYPTED</p>
+            </div>
+            
+            <div class="p-4 rounded-[20px] bg-bg-custom shadow-neumorph-sm-in border border-white/20 text-left flex flex-col gap-3 font-mono text-[10px] text-secondary-custom">
+              <div>
+                <span class="text-primary-custom font-bold">SESSION_ID:</span>
+                <span class="block truncate">_session_bt_auth_910fa8d87a9bc</span>
+              </div>
+              <div>
+                <span class="text-primary-custom font-bold">ENCRYPTION:</span>
+                <span>SHA-256 / AES-GCM</span>
+              </div>
+              <div>
+                <span class="text-primary-custom font-bold">PROTECTED_ROUTES:</span>
+                <span>/dashboard, /api/*</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {/* FAQ Section */}
+  <section id="faq" class="py-24 bg-bg-custom select-none">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      {/* Title */}
+      <div class="text-center mb-16 flex flex-col gap-4">
+        <span class="text-xs font-bold text-primary-custom uppercase tracking-widest">TANYA JAWAB</span>
+        <h2 class="text-3xl font-extrabold text-dark-custom tracking-tight">Pertanyaan yang Sering Diajukan</h2>
+        <p class="text-sm text-secondary-custom font-semibold">Semua jawaban atas kekhawatiran finansial Anda</p>
+      </div>
+
+      {/* Accordions */}
+      <div class="flex flex-col gap-6">
+        
+        {/* Q1 */}
+        <details class="group p-6 rounded-[24px] bg-bg-custom shadow-neumorph-out border border-white/20 transition-all duration-300">
+          <summary class="flex justify-between items-center font-bold text-dark-custom cursor-pointer outline-none select-none list-none text-base">
+            <span>Apakah aplikasi Uangku ini gratis?</span>
+            <span class="transition-transform group-open:rotate-180 p-1.5 rounded-[10px] bg-bg-custom shadow-neumorph-sm-out flex items-center justify-center text-xs">
+              ▼
+            </span>
+          </summary>
+          <p class="text-xs font-semibold text-secondary-custom mt-4 leading-relaxed pl-1">
+            Ya! Seluruh fitur pencatatan transaksi bulanan, pembuatan target tabungan, performa grafik, hingga ekspor laporan PDF/Excel dapat Anda gunakan secara gratis 100% tanpa dipungut biaya apa pun.
+          </p>
+        </details>
+
+        {/* Q2 */}
+        <details class="group p-6 rounded-[24px] bg-bg-custom shadow-neumorph-out border border-white/20 transition-all duration-300">
+          <summary class="flex justify-between items-center font-bold text-dark-custom cursor-pointer outline-none select-none list-none text-base">
+            <span>Apakah data keuangan pribadi saya aman di Uangku?</span>
+            <span class="transition-transform group-open:rotate-180 p-1.5 rounded-[10px] bg-bg-custom shadow-neumorph-sm-out flex items-center justify-center text-xs">
+              ▼
+            </span>
+          </summary>
+          <p class="text-xs font-semibold text-secondary-custom mt-4 leading-relaxed pl-1">
+            Sangat aman. Setiap akun diproteksi oleh Better Auth yang mengenkripsi kata sandi secara kuat. Seluruh transaksi dan target tabungan Anda disimpan di dalam segmen database MySQL yang aman dan hanya bisa diakses oleh akun Anda setelah melewati verifikasi sesi login yang valid.
+          </p>
+        </details>
+
+        {/* Q3 */}
+        <details class="group p-6 rounded-[24px] bg-bg-custom shadow-neumorph-out border border-white/20 transition-all duration-300">
+          <summary class="flex justify-between items-center font-bold text-dark-custom cursor-pointer outline-none select-none list-none text-base">
+            <span>Bagaimana cara mengekspor laporan transaksi bulanan?</span>
+            <span class="transition-transform group-open:rotate-180 p-1.5 rounded-[10px] bg-bg-custom shadow-neumorph-sm-out flex items-center justify-center text-xs">
+              ▼
+            </span>
+          </summary>
+          <p class="text-xs font-semibold text-secondary-custom mt-4 leading-relaxed pl-1">
+            Setelah Anda masuk ke dashboard Uangku, Anda cukup mengklik tombol **"Ekspor Laporan"** di bar navigasi atas. Sebuah modal neumorphic akan terbuka, lalu Anda bisa memilih format laporan yang diinginkan (PDF, Excel, CSV) serta periode tanggal transaksi sebelum mengunduhnya secara instan.
+          </p>
+        </details>
+
+      </div>
+
+    </div>
+  </section>
+
+  {/* CTA Section */}
+  <section class="py-20 bg-bg-custom select-none">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="p-12 rounded-[32px] bg-bg-custom shadow-neumorph-out border border-white/30 text-center flex flex-col gap-6 max-w-4xl mx-auto transform hover:scale-[1.01] transition-transform duration-300">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-dark-custom leading-tight tracking-tight">
+          Mulai Atur Keuangan Anda Hari Ini ✨
+        </h2>
+        <p class="text-base text-secondary-custom font-semibold max-w-xl mx-auto leading-relaxed">
+          Buat akun gratis dalam waktu kurang dari 1 menit. Rasakan kenyamanan mengelola pendapatan bulanan dengan keindahan desain neumorphic modern.
+        </p>
+        <div class="flex justify-center mt-4">
+          {session ? (
+            <a
+              href="/dashboard"
+              class="px-8 py-4 rounded-[18px] bg-primary-custom text-white font-bold text-sm shadow-neumorph-primary-out hover:brightness-105 active:scale-[0.98] transition-all duration-200 flex items-center gap-2"
+            >
+              <span>Buka Dashboard Anda</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          ) : (
+            <a
+              href="/register"
+              class="px-8 py-4 rounded-[18px] bg-primary-custom text-white font-bold text-sm shadow-neumorph-primary-out hover:brightness-105 active:scale-[0.98] transition-all duration-200 flex items-center gap-2"
+            >
+              <span>Daftar Sekarang - Gratis</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Footer */}
+  <footer class="py-12 bg-bg-custom border-t border-neutral-300/40 select-none">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        
+        {/* Left */}
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-[12px] bg-bg-custom shadow-neumorph-sm-out flex items-center justify-center text-lg font-bold">
+            💸
+          </div>
+          <div>
+            <h4 class="text-sm font-extrabold text-dark-custom tracking-tight leading-none">Uangku</h4>
+            <p class="text-[8px] font-bold text-primary-custom tracking-widest uppercase mt-0.5">Personal Finance</p>
+          </div>
+        </div>
+
+        {/* Center links */}
+        <div class="flex gap-8 text-xs font-bold text-secondary-custom">
+          <a href="#fitur" class="hover:text-primary-custom transition-all">Fitur</a>
+          <a href="#keamanan" class="hover:text-primary-custom transition-all">Keamanan</a>
+          <a href="#faq" class="hover:text-primary-custom transition-all">FAQ</a>
+        </div>
+
+        {/* Right */}
+        <div class="text-xs font-semibold text-secondary-custom">
+          <span>© 2026 Uangku Team. All rights reserved.</span>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
 </Layout>
+
