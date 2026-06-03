@@ -15,8 +15,6 @@ export const auth = betterAuth({
     },
   }),
   trustedOrigins: [
-    "http://localhost:4321",
-    "http://127.0.0.1:4321",
     ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : []),
   ],
   emailAndPassword: {
